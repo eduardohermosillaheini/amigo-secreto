@@ -4,6 +4,8 @@ let amigos = [];
 let amigoSeleccionado = "";
 let nuevoAmigo = "";
 let numeroSeleccionado = 0;
+var nuevoElemento = "";
+let texto = "";
 
 function agregarAmigo(){
     //Se obtiene el nombre ingresado por el usuario
@@ -25,28 +27,31 @@ function agregarAmigo(){
 
 function actualizarObjetoLista(){
     //Obtener una referencia a la lista
-    let listaAmigos = document.getElementById("listaAmigos");           
+    let lista = document.getElementById("listaAmigos");           
     
     //Limpiando la lista
-    listaAmigos.innerHTML = "";                                         
+    lista.innerHTML = "";                                         
     
     //Se recorre la lista de amigos
     for(var i = 0; i<amigos.length; i++){                               
-        //Se llama a la función para agregar los nombre desde "amigos" a "listaAmigos"
-        agregarAmigoALaLista(amigos[i]); 
+        //Se llama a la función para crear un nuevo elemento
+        nuevoElemento = generarNuevoElemento(amigos[i],"li");
+
+        //Se agrega el nombre desde "amigos" a "lista"
+        lista.appendChild(nuevoElemento); 
     }                              
 }
 
-function agregarAmigoALaLista(elementoNuevo){                           //Agrega un nuevo elemento al Objeto lista
-    //Crear un nuevo lemento <li>
-    var nuevoElemento = document.createElement("li");                  
+function generarNuevoElemento(elementoNuevo,tipoElemento){           //Entrega un nuevo elemento para ser utilizado
+    //Crear un nuevo lemento segun el tipo ingresado
+    nuevoElemento = document.createElement(tipoElemento);                  
     
-    //Crear el contenido del <li>
-    var texto = document.createTextNode(elementoNuevo);                 
-    nuevoElemento.appendChild(texto);
-    
-    //Agregar el <li> a la lista
-    listaAmigos.appendChild(nuevoElemento);                             
+    //Crear el contenido del tipo de elemento
+    texto = document.createTextNode(elementoNuevo);
+
+    //Se actualiza el texto node del nuevo elemento
+    nuevoElemento.appendChild(texto);                 
+    return nuevoElemento;                           
 }
 
 function sortearAmigo(){
@@ -59,18 +64,12 @@ function sortearAmigo(){
         amigoSeleccionado = amigos[numeroSeleccionado-1];
         
         //Se limpia la lista de amigos
-        //listaAmigos.innerHTML = "";
+        listaAmigos.innerHTML = "";
         
         //Selecciona la lista <ul> "resultado"
         var resultado = document.getElementById("resultado");
         
-        //Crea el <li>    
-        var nuevoElemento = document.createElement("li");
-        
-        //Asigna el texto al nuevo elemento
-        nuevoElemento.innerHTML = `El amigo secreto sorteado es: ${amigoSeleccionado}`;
-        
-        //Se agrega el elemento a la lista
+        nuevoElemento = generarNuevoElemento(`El amigo secreto sorteado es: ${amigoSeleccionado}`,"li");
         resultado.appendChild(nuevoElemento);    
         
     } else {
